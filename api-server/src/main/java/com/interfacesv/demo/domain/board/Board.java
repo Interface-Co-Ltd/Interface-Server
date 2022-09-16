@@ -18,7 +18,7 @@ public class Board {
     @Column
     private String title;
 
-    @Column
+    @Column(length = 6000)
     private String content;
 
     @Column

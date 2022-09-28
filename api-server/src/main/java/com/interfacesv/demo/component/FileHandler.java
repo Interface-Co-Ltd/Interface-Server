@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Component
 public class FileHandler {
-    public List<Image> parseFileInfo(Cooperation cooperation, List<MultipartFile> multipartFiles) throws Exception {
+    public List<Image> parseFileInfo(List<MultipartFile> multipartFiles) throws Exception {
         List<Image> fileList = new ArrayList<>();
         if(multipartFiles.isEmpty()){
             return fileList;
@@ -67,5 +67,6 @@ public class FileHandler {
 
             }
         }
+        return fileList;
     }
 }

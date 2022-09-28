@@ -22,19 +22,15 @@ public class User extends BaseTimeEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String student_id;
+    @Column(unique = true, name = "student_id")
+    private String studentId;
 
-    //@NotBlank(message = "이메일은 필수 입력 값입니다.")
-    //@Email(message = "이메일 형식에 맞지 않습니다.")
-    //@NotNull
-    @Column(unique = true)
-    private String email;
     //@NotBlank(message = "이름은 필수 입력 값입니다.")
     //@NotNull
     private String name;
     //@NotBlank(message = "비밀번호는 필수 입력 값입니다.")
     private String password;
+    private String email;
     //@NotNull
     private String auth;
     //@Nullable
@@ -43,10 +39,11 @@ public class User extends BaseTimeEntity implements UserDetails {
     private String birthday;
 
     @Builder
-    public User(String email, String name, String password, String auth, String phone, String birthday) {
-        this.email = email;
+    public User(String studentId, String name, String password, String email, String auth, String phone, String birthday) {
+        this.studentId = studentId;
         this.name = name;
         this.password = password;
+        this.email = email;
         this.auth = auth;
         this.phone = phone;
         this.birthday = birthday;
@@ -66,7 +63,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     //사용자의 id를 반환 (unique한 값)
     @Override
     public String getUsername() {
-        return email;
+        return studentId;
     }
 
     //사용자의 password를 반환
@@ -103,10 +100,11 @@ public class User extends BaseTimeEntity implements UserDetails {
         return true;
     }
 
-    public void update(String email, String name, String password, String auth, String phone, String birthday) {
-        this.email = email;
+    public void update(String studentId, String name, String password, String email, String auth, String phone, String birthday) {
+        this.studentId = studentId;
         this.name = name;
         this.password = password;
+        this.email = email;
         this.auth = auth;
         this.phone = phone;
         this.birthday = birthday;

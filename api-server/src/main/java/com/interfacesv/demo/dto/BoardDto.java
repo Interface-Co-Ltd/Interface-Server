@@ -26,6 +26,14 @@ public class BoardDto {
         this.user = board.getUser().getStudentId();
     }
 
+    public BoardDto(Long id, String title, String content, String type, String user) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.type = type;
+        this.user = user;
+    }
+
     public BoardDto from(Board board) {
         return new BoardDto(board);
     }

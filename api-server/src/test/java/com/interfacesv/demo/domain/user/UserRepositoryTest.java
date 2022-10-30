@@ -35,7 +35,7 @@ public class UserRepositoryTest {
     @Test
     public void 회원가입() {
         String studentId = "20003201";
-        String name = "김성민";
+        String name = "빵은정";
         String password = "q1w2e3r4!";
         String email = "20003201@sju.ac.kr";
         String auth = "admin";

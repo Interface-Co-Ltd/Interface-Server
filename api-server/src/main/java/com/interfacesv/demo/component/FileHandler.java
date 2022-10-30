@@ -2,12 +2,17 @@ package com.interfacesv.demo.component;
 
 import com.interfacesv.demo.domain.Cooperation.Cooperation;
 import com.interfacesv.demo.domain.image.Image;
+import com.interfacesv.demo.sevice.ImageService;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,58 +20,60 @@ import java.util.UUID;
 
 @Component
 public class FileHandler {
-    public List<Image> parseFileInfo(List<MultipartFile> multipartFiles) throws Exception {
-        List<Image> fileList = new ArrayList<>();
-        if(multipartFiles.isEmpty()){
-            return fileList;
-        }
+    private final ImageService imageService;
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        String current_date = simpleDateFormat.format(new Date());
+    public FileHandler(ImageService imageService){
+        this.imageService = imageService;
+    }
 
-        String absolutePath = new File("").getAbsolutePath() + "/";
+    public List<Image> parseFileInfo(
+            List<MultipartFile> multipartFiles
+    ) throws Exception{
+        List<Image> imageList = new ArrayList<>();
 
-        String path = "src/main/resources/static/images/" + current_date;
-        File file = new File(path);
+        if(!CollectionUtils.isEmpty(multipartFiles)){
+            //파일명을 업로드 날짜로 변환해 저장
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter dateTimeFormatter =
+                    DateTimeFormatter.ofPattern("yyyyMMdd");
+            String current_date = now.format(dateTimeFormatter);
 
-        if(!file.exists()){
-            file.mkdirs();
-        }
+            //프로젝트 디렉터리 내외 저장 절대경로 설정
+            //File.separator = 경로 구분자
+            String absolutePath = new File("").getAbsolutePath() + File.separator;
 
-        for(MultipartFile multipartFile : multipartFiles){
-            if(!multipartFile.isEmpty()){
-                String contentType = multipartFile.getContentType();
+            //세부경로
+            String path = "iamges" + File.separator + current_date;
+            File file = new File(path);
+
+            //디렉터리 존재 X
+            if(!file.exists()){
+                boolean wasSuccessful = file.mkdirs();
+
+                //디렉터리 생성 실패
+                if(!wasSuccessful) System.out.println("file : was not successful");
+            }
+
+            //다중파일 처리
+            for(MultipartFile multipartFile : multipartFiles){
+                //파일 확장자
                 String originalFileExtension;
+                String contentType = multipartFile.getContentType();
 
-                if(ObjectUtils.isEmpty(contentType)){
-                    break;
-                }
-                else {
-                    if (contentType.contains("image/jpeg")) {
-                        originalFileExtension = ".jpg";
-                    } else if (contentType.contains("image/png")) {
-                        originalFileExtension = ".png";
-                    } else if (contentType.contains("image/gif")) {
-                        originalFileExtension = ".gif";
-                    } else {
-                        break;
-                    }
+                //확장자명 존재X
+                if(ObjectUtils.isEmpty(contentType)) break;
+                else{
+                    //확장자  jpeg, png 파일 처리
+                    if(contentType.contains("image/jpeg")) originalFileExtension = ".jpg";
+                    else if(contentType.contains("image/png")) originalFileExtension = ".png";
+                    else break;
                 }
 
-                String new_file_name = Long.toString(System.nanoTime()) + originalFileExtension;
+                //파일 중복 피하기 : 나노초 처리
+                String new_file_name = System.nanoTime() + originalFileExtension;
 
-                Image image = Image.builder()
-                        .uuid(UUID.randomUUID().toString())
-                        .fileName(multipartFile.getOriginalFilename())
-                        .uploadPath(path+"/"+new_file_name)
-                        .build();
-                fileList.add(image);
-
-                file = new File(absolutePath + path + "/" + new_file_name);
-                multipartFile.transferTo(file);
-
+                //dto 생성성
             }
         }
-        return fileList;
     }
 }

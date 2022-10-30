@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ImageRepository extends JpaRepository<Image, String> {
     List<Image> findAll();
+    Image findAllByBoardId(String uuid);
 }

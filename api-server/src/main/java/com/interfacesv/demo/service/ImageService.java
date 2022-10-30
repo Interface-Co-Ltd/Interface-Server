@@ -24,6 +24,24 @@ public class ImageService {
 
     private final FileHandler fileHandler = new FileHandler();
 
+    public void save(Image imageDto, List<MultipartFile> files) throws Exception{
+        Image image = Image.builder()
+                .fileName(imageDto.getUuid())
+                .fileName(imageDto.getFileName())
+                .uploadPath(imageDto.getUploadPath())
+                .build();
 
+        imageRepository.save(image);
+
+        List<Image> imageList = fileHandler.parseFileInfo(files);
+
+        //파일이 없는 경우 ??
+        if(imageList.isEmpty()) return;
+        else{
+            for(Image image_e : imageList){
+
+            }
+        }
+    }
 
 }

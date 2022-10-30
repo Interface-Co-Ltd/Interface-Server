@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception { //http 관련 인증 설정이 가능합니다.
+    protected void configure(HttpSecurity http) throws Exception { //http 관련 인증 설정이 가능합니다. (REST API로 할 것이기 때문에 세션이아닌 JTW 토큰 발급으로 변경해야함)
         http.authorizeRequests()
                 .antMatchers("/", "/user").permitAll() //누구나 접근 허용
                 .antMatchers("/login", "/signup", "/signupSub").anonymous() //인증받은사람은 접근 불가능

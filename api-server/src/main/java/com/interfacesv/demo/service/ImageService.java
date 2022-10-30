@@ -1,5 +1,7 @@
-package com.interfacesv.demo.sevice;
+package com.interfacesv.demo.service;
 
+import com.interfacesv.demo.component.FileHandler;
+import com.interfacesv.demo.domain.board.Board;
 import com.interfacesv.demo.domain.image.Image;
 import com.interfacesv.demo.domain.image.ImageRepository;
 import com.interfacesv.demo.dto.ImageResponseDto;
@@ -7,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,18 +22,8 @@ public class ImageService {
     @Autowired
     private final ImageRepository imageRepository;
 
-    @Transactional(readOnly = true)
-    public List<ImageResponseDto> findAllByBoard(String boardId){
-        List<Image> imageList = imageRepository.findAllById(Collections.singleton(boardId));
+    private final FileHandler fileHandler = new FileHandler();
 
-        return imageList.stream()
-                .map(ImageResponseDto::new)
-                .collect(Collectors.toList());
-    }
 
-    public Image findByUuid(String uuid){
-        Image image = imageRepository.findAllByBoardId(uuid);
 
-        return image;
-    }
 }

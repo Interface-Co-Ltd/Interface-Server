@@ -1,11 +1,13 @@
 package com.interfacesv.demo.domain.board;
 
 import com.interfacesv.demo.domain.BaseTimeEntity.BaseTimeEntity;
+import com.interfacesv.demo.domain.image.Image;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -24,6 +26,8 @@ public class Board extends BaseTimeEntity {
 
     @Column
     private String type;
+
+    //private List<Image> files;
 
     @Builder
     public Board(String title, String content, String type) {

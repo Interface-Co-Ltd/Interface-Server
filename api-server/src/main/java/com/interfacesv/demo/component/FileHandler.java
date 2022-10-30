@@ -1,34 +1,25 @@
 package com.interfacesv.demo.component;
 
-import com.interfacesv.demo.domain.Cooperation.Cooperation;
 import com.interfacesv.demo.domain.image.Image;
-import com.interfacesv.demo.sevice.ImageService;
+import com.interfacesv.demo.service.ImageService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @Component
 public class FileHandler {
-    private final ImageService imageService;
 
-    public FileHandler(ImageService imageService){
-        this.imageService = imageService;
-    }
+    public List<Image> parseFileInfo(List<MultipartFile> multipartFiles) throws Exception{
 
-    public List<Image> parseFileInfo(
-            List<MultipartFile> multipartFiles
-    ) throws Exception{
+        //반환할 파일 리스트
         List<Image> imageList = new ArrayList<>();
 
         if(!CollectionUtils.isEmpty(multipartFiles)){
@@ -43,7 +34,7 @@ public class FileHandler {
             String absolutePath = new File("").getAbsolutePath() + File.separator;
 
             //세부경로
-            String path = "iamges" + File.separator + current_date;
+            String path = "src/main/resources/static/images/" + current_date;
             File file = new File(path);
 
             //디렉터리 존재 X
@@ -70,10 +61,20 @@ public class FileHandler {
                 }
 
                 //파일 중복 피하기 : 나노초 처리
-                String new_file_name = System.nanoTime() + originalFileExtension;
+                String new_file_name =Long.toString(System.nanoTime()) + originalFileExtension;
 
                 //dto 생성성
+                Image image = Image.builder()
+                        .uuid(UUID.randomUUID().toString())
+                        .fileName(multipartFile.getOriginalFilename())
+                        .uploadPath(path+"/"+new_file_name)
+                        .build();
+
+                //저장된 파일로 변경해 이를 보여줌
+                file = new File(absolutePath + path + "/" + new_file_name);
+                multipartFile.transferTo(file);
             }
         }
+        return imageList;
     }
 }

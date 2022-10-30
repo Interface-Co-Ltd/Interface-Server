@@ -1,12 +1,15 @@
 package com.interfacesv.demo.domain.image;
 
 import com.interfacesv.demo.domain.BaseTimeEntity.BaseTimeEntity;
+import com.interfacesv.demo.domain.board.Board;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Getter
 @NoArgsConstructor
@@ -24,6 +27,10 @@ public class Image extends BaseTimeEntity {
     /* 파일 이름 */
     //@NotNull
     private String fileName; //file_name
+
+    @ManyToOne
+    @JoinColumn(name="board_id")
+    private Board board;  //image가 등록된 게시물 board
 
 //    //@Nullable
 //    @ManyToOne

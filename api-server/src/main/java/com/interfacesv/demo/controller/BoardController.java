@@ -15,8 +15,7 @@ import java.util.Map;
 public class BoardController {
 
     private final BoardService boardService;
-
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     public ResponseEntity<List<BoardDto>> findAllBoard() {
         return ResponseEntity.ok(boardService.findAll());
     }
@@ -51,6 +50,12 @@ public class BoardController {
         return ResponseEntity.ok(boardDto);
     }
 
+    @DeleteMapping(value = "/delete")
+    public ResponseEntity<?> delete(@RequestParam("id")Long id) {
+        boardService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping(value = "/findByStudent")
     public ResponseEntity<List<BoardDto>> findByStudent(@RequestParam("studentId")String studentId) {
         return ResponseEntity.ok(boardService.findByStudentId(studentId));
@@ -59,11 +64,5 @@ public class BoardController {
     @GetMapping(value = "/findById")
     public ResponseEntity<BoardDto> findById(@RequestParam("id")Long id) {
         return ResponseEntity.ok(boardService.findById(id));
-    }
-
-    @DeleteMapping(value = "/delete")
-    public ResponseEntity<?> delete(@RequestParam("id")Long id) {
-        boardService.deleteById(id);
-        return ResponseEntity.ok().build();
     }
 }

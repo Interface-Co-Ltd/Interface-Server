@@ -1,5 +1,6 @@
 package com.interfacesv.demo.domain.board;
 
+import com.interfacesv.demo.domain.user.UserRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +20,10 @@ public class BoardRepositoryTest {
     @Autowired
     BoardRepository boardRepository;
 
-    @After
+    @Autowired
+    UserRepository userRepository;
+
+    @Before
     public void cleanUp() {
         boardRepository.deleteAll();
     }
@@ -29,11 +33,13 @@ public class BoardRepositoryTest {
         String title = "제목";
         String content = "본문";
         String type = "공지사항";
+        String studentId = "20003201";
 
         boardRepository.save(Board.builder()
                 .title(title)
                 .content(content)
                 .type(type)
+                .user(userRepository.findByStudentId(studentId).get())
                 .build());
 
         List<Board> boardList = boardRepository.findAll();

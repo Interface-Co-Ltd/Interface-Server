@@ -42,8 +42,9 @@ public class BoardService {
         List<Board> boardList = boardRepository.findAll();
 
         for(int i=0;i<boardList.size();i++) {
-            if(boardList.get(i).getUser().getId().equals(studentId))
+            if(boardList.get(i).getUser().getStudentId().equals(studentId)) {
                 boardDtoList.add(new BoardDto(boardList.get(i)));
+            }
         }
 
         return boardDtoList;
@@ -51,14 +52,17 @@ public class BoardService {
 
     @Transactional
     public BoardDto save(BoardDto boardDto) {
-        boardRepository.save(Board.builder()
+        Board board = Board.builder()
                 .title(boardDto.getTitle())
                 .content(boardDto.getContent())
                 .type(boardDto.getType())
                 .user(userRepository.findByStudentId(boardDto.getUser())
-                        .orElseThrow(() -> new UsernameNotFoundException((boardDto.getUser())))).build());
+                        .orElseThrow(() -> new UsernameNotFoundException((boardDto.getUser())))).build();
 
-        return boardDto;
+        boardRepository.save(board);
+        BoardDto boardDtoResult = new BoardDto(board);
+
+        return boardDtoResult;
     }
 
     @Transactional

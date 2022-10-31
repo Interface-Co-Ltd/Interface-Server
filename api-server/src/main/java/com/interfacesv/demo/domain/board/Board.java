@@ -1,7 +1,7 @@
 package com.interfacesv.demo.domain.board;
 
 import com.interfacesv.demo.domain.BaseTimeEntity.BaseTimeEntity;
-import com.interfacesv.demo.domain.image.Image;
+import com.interfacesv.demo.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,19 +27,23 @@ public class Board extends BaseTimeEntity {
     @Column
     private String type;
 
-    //private List<Image> files;
+    @OneToOne
+    @JoinColumn(name = "user") //Board 테이블에서의 칼럼명 : user
+    private User user;
 
     @Builder
-    public Board(String title, String content, String type) {
+    public Board(String title, String content, String type, User user) {
         this.title = title;
         this.content = content;
         this.type = type;
+        this.user = user;
     }
 
-    public void update(String title, String content, String type) {
+    public void update(String title, String content, String type, User user) {
         this.title = title;
         this.content = content;
         this.type = type;
+        this.user = user;
     }
 
 }

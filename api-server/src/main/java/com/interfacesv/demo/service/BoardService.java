@@ -1,7 +1,10 @@
 package com.interfacesv.demo.service;
 
+import com.interfacesv.demo.component.FileHandler;
 import com.interfacesv.demo.domain.board.Board;
 import com.interfacesv.demo.domain.board.BoardRepository;
+import com.interfacesv.demo.domain.image.Image;
+import com.interfacesv.demo.domain.image.ImageRepository;
 import com.interfacesv.demo.domain.user.UserRepository;
 import com.interfacesv.demo.dto.BoardDto;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,10 @@ public class BoardService {
 
     final private BoardRepository boardRepository;
     final private UserRepository userRepository;
+    final private ImageRepository imageRepository;
+    final private FileHandler fileHandler = new FileHandler();
+
+    final private Image image = new Image();
 
     @Transactional
     public BoardDto findById(Long id) {

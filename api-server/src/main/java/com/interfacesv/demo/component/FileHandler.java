@@ -61,7 +61,7 @@ public class FileHandler {
                 }
 
                 //파일 중복 피하기 : 나노초 처리
-                String new_file_name =Long.toString(System.nanoTime()) + originalFileExtension;
+                String new_file_name = Long.toString(System.nanoTime()) + originalFileExtension;
 
                 //dto 생성성
                 Image image = Image.builder()

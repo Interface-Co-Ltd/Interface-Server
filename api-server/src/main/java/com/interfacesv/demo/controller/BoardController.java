@@ -1,5 +1,7 @@
 package com.interfacesv.demo.controller;
 
+import com.interfacesv.demo.domain.board.BoardRepository;
+import com.interfacesv.demo.domain.image.ImageRepository;
 import com.interfacesv.demo.dto.BoardDto;
 import com.interfacesv.demo.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,10 @@ import java.util.Map;
 public class BoardController {
 
     private final BoardService boardService;
+
+    private final BoardRepository boardRepository;
+    private final ImageRepository imageRepository;
+
     @GetMapping(value = "")
     public ResponseEntity<List<BoardDto>> findAllBoard() {
         return ResponseEntity.ok(boardService.findAll());

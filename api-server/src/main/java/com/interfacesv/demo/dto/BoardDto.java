@@ -1,15 +1,12 @@
 package com.interfacesv.demo.dto;
 
 import com.interfacesv.demo.domain.board.Board;
-import com.interfacesv.demo.domain.user.User;
+import com.interfacesv.demo.domain.image.Image;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class BoardDto {
@@ -19,19 +16,32 @@ public class BoardDto {
     public final String type;
     public final String user;
 
+    private List<ImageDto> images;
+
     public final String created_date;
 
     public final String modified_date;
 
     @Builder
-    public BoardDto(Board board) {
+    public BoardDto(Board board, List<ImageDto> imageDtoList) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.content = board.getContent();
         this.type = board.getType();
         this.user = board.getUser().getStudentId();
+        this.images = imageDtoList;
         this.created_date = board.getCreated_date().toString();
         this.modified_date = board.getModified_date().toString();
+    }
+
+    public List<ImageDto> toDtoList(List<Image> imageList){
+        List<ImageDto> imageDtoList = new ArrayList<>();
+
+        for(Image image1: imageList){
+            imageDtoList.add(new ImageDto(image1));
+        }
+
+        return imageDtoList;
     }
 
     public BoardDto(Long id, String title, String content, String type, String user, String created_date, String modified_date) {
@@ -44,7 +54,7 @@ public class BoardDto {
         this.modified_date = modified_date;
     }
 
-    public BoardDto from(Board board) {
-        return new BoardDto(board);
+    public BoardDto from(Board board, List<ImageDto> imageDtoList) {
+        return new BoardDto(board, imageDtoList);
     }
 }

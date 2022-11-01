@@ -1,7 +1,7 @@
 package com.interfacesv.demo.component;
 
+import com.interfacesv.demo.domain.board.Board;
 import com.interfacesv.demo.domain.image.Image;
-import com.interfacesv.demo.service.ImageService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -17,7 +17,7 @@ import java.util.UUID;
 @Component
 public class FileHandler {
 
-    public List<Image> parseFileInfo(List<MultipartFile> multipartFiles) throws Exception{
+    public List<Image> parseFileInfo(Board board, List<MultipartFile> multipartFiles) throws Exception{
 
         //반환할 파일 리스트
         List<Image> imageList = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.interfacesv.demo.dto;
 
 import com.interfacesv.demo.domain.board.Board;
+import com.interfacesv.demo.domain.image.Image;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,10 +14,10 @@ public class ImageDto {
     public final Board board;
 
     @Builder
-    public ImageDto(String uuid, String uploadPath, String fileName, Board board){
-        this.uuid = uuid;
-        this.uploadPath = uploadPath;
-        this.fileName = fileName;
-        this.board = board;
+    public ImageDto(Image image){
+        this.uuid = image.getUuid();
+        this.uploadPath = image.getUploadPath();
+        this.fileName = image.getFileName();
+        this.board = image.getBoard();
     }
 }

@@ -2,6 +2,7 @@ package com.interfacesv.demo.domain.image;
 
 import com.interfacesv.demo.domain.BaseTimeEntity.BaseTimeEntity;
 import com.interfacesv.demo.domain.board.Board;
+import com.interfacesv.demo.dto.ImageDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -54,4 +57,22 @@ public class Image extends BaseTimeEntity {
     }
 
 
+    public List<ImageDto> toDtoList(List<Image> imageList) {
+        List<ImageDto> imageDtoList = new ArrayList<>();
+
+        for(Image image: imageList){
+            imageDtoList.add(new ImageDto(image));
+        }
+
+        return imageDtoList;
+    }
+
+    public Image dtoToEntity(ImageDto imageDto, Board board){
+        return Image.builder()
+                .uuid(imageDto.getUuid())
+                .uploadPath(imageDto.getUploadPath())
+                .fileName(imageDto.getFileName())
+                .board(imageDto.getBoard())
+                .build();
+    }
 }

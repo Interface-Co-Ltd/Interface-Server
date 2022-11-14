@@ -3,11 +3,15 @@ package com.interfacesv.demo.service;
 import com.interfacesv.demo.domain.user.User;
 import com.interfacesv.demo.domain.user.UserRepository;
 import com.interfacesv.demo.dto.UserDto;
+import com.interfacesv.demo.dto.UserSimple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -46,5 +50,22 @@ public class UserService implements UserDetailsService {
                 .phone(userDto.getPhone())
                 .birthday(userDto.getBirthday())
                 .build()).getId();
+    }
+
+
+    // 보안 문제 때문에 비밀번호는 반환하지 않음.
+    public List<UserSimple> findAll() {
+        List<UserSimple> userSimpleList = new ArrayList<>();
+        List<User> userList = userRepository.findAll();
+
+        for(int i=0;i<userList.size();i++) {
+            userSimpleList.add(new UserSimple(userList.get(i)));
+        }
+
+        return userSimpleList;
+    }
+
+    public UserSimple findByStudentId(String studentId) {
+        return new UserSimple(userRepository.findByStudentId(studentId).get());
     }
 }

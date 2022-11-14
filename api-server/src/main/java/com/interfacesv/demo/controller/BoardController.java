@@ -34,7 +34,7 @@ public class BoardController {
         return ResponseEntity.ok(boardDto);
     }
 
-    @PostMapping(value = "/update")
+    @PutMapping(value = "/update")
     public ResponseEntity<BoardDto> update(@RequestBody Map<String,String> param) {
         String idString = param.get("id"); // Map 자료형으로 리퀘스트 바디를 받으려면 모든 값을 String으로 받아야하므로 일단 String으로 받고 Long으로 변환
         Long id = Long.parseLong(idString); // String to Long

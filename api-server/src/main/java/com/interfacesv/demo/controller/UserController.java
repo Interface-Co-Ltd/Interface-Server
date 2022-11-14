@@ -41,22 +41,26 @@ public class UserController {
     }
 
     // 여기서부터 구현!
-//    @PutMapping("/update")
-//    public ResponseEntity<UserSimple> update(@RequestBody Map<String,String> param) {
-//        UserDto userDto = new UserDto(param.get("studentId"),
-//                param.get("name"),
-//                param.get("password"),
-//                param.get("email"),
-//                param.get("auth"),
-//                param.get("phone"),
-//                param.get("birthday"));
-//
-//
-//
-//    }
-//
-//    @DeleteMapping("/delete")
-//    public ResponseEntity<?> delete(@RequestParam("studentId")String studentId) {
-//
-//    }
+    @PutMapping("/update")
+    public ResponseEntity<UserSimple> update(@RequestBody Map<String,String> param) {
+        UserDto userDto = new UserDto(param.get("studentId"),
+                param.get("name"),
+                param.get("password"),
+                param.get("email"),
+                param.get("auth"),
+                param.get("phone"),
+                param.get("birthday"));
+
+        userService.update(userDto);
+        UserSimple userSimple = userService.findByStudentId(userDto.getStudentId());
+
+        return ResponseEntity.ok(userSimple);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> delete(@RequestParam("studentId")String studentId) {
+        userService.delete(studentId);
+
+        return ResponseEntity.ok().build();
+    }
 }

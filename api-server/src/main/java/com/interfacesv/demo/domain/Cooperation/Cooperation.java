@@ -19,7 +19,7 @@ public class Cooperation extends BaseTimeEntity {
     private String name;
 
     @Column
-    private String address;
+    private String address;  //erdcloud 제거
 
     @Column
     private String link;

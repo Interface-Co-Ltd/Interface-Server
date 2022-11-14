@@ -20,7 +20,7 @@ public class Schedule extends BaseTimeEntity {
     @Column
     private String div;
 
-    @Column
+    @Column(name = "schedule_content")
     private String content;
 
     @Column

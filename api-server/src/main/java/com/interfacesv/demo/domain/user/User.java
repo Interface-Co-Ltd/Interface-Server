@@ -39,7 +39,8 @@ public class User extends BaseTimeEntity implements UserDetails {
     private String birthday;
 
     @Builder
-    public User(String studentId, String name, String password, String email, String auth, String phone, String birthday) {
+    public User(Long id, String studentId, String name, String password, String email, String auth, String phone, String birthday) {
+        this.id = id;
         this.studentId = studentId;
         this.name = name;
         this.password = password;

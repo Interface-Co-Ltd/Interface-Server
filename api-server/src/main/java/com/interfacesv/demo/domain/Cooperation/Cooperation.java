@@ -15,11 +15,11 @@ public class Cooperation extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name="cooperation_name")
     private String name;
 
     @Column
-    private String address;
+    private String address;  //erdcloud 제거
 
     @Column
     private String link;

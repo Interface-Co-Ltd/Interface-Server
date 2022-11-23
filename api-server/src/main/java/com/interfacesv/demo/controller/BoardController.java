@@ -33,9 +33,7 @@ public class BoardController {
         String type = param.get("type");
         String studentId = param.get("studentId");
 
-        BoardDto boardDto = new BoardDto(0L, title, content, type, studentId, "", ""); // id가 0L인 이유 : 어차피 사용안하고 자동지정이므로 쓰레기값을 아무것이나 넣어줌
-
-        //boardDto = boardService.save(boardDto);  //이걸 우째야 될까여
+        BoardDto boardDto = new BoardDto(0L, title, content, type, studentId, "", ""); // id가 0L인 이유 : 어차피 사용안하고 자동지정이므로 쓰레기값을 아무것이나 넣어
 
         return ResponseEntity.ok(boardDto);
     }

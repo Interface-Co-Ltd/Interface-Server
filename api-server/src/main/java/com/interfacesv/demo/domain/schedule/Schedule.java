@@ -1,5 +1,6 @@
 package com.interfacesv.demo.domain.schedule;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.interfacesv.demo.domain.BaseTimeEntity.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,16 +25,19 @@ public class Schedule extends BaseTimeEntity {
     private String content;
 
     @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime start_date;
 
     @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime end_date;
 
     @Column
     private Long all_day;
 
     @Builder
-    public Schedule(String div, String content, LocalDateTime start_date, LocalDateTime end_date, Long all_day) {
+    public Schedule(Long id, String div, String content, LocalDateTime start_date, LocalDateTime end_date, Long all_day) {
+        this.id = id;
         this.div = div;
         this.content = content;
         this.start_date = start_date;

@@ -24,4 +24,13 @@ public class ScheduleDTO {
         this.end_date = schedule.getEnd_date();
         this.all_day = schedule.getAll_day();
     }
+
+    public ScheduleDTO(Long id, String div, String content, LocalDateTime start_date, LocalDateTime end_date, Long all_day){
+        this.id = id;
+        this.div = div;
+        this.content = content;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.all_day = all_day;
+    }
 }

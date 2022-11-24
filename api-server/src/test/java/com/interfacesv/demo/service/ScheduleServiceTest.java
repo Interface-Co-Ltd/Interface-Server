@@ -28,6 +28,30 @@ public class ScheduleServiceTest {
     @Autowired
     ScheduleService scheduleService;
 
+    @Before
+    public void before(){
+        scheduleRepository.deleteAll();
+
+        //given
+        Long id = 1L;
+        String div = "interface";
+        String content = "개강총회";
+        LocalDateTime start_date = LocalDateTime.now();
+        LocalDateTime end_date = LocalDateTime.now();
+        Long all_day = 1L;
+
+        Schedule schedule = Schedule.builder()
+                .div(div)
+                .content(content)
+                .start_date(start_date)
+                .end_date(end_date)
+                .all_day(all_day)
+                .build();
+
+        ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
+        scheduleService.saveSchedule(scheduleDTO);
+    }
+
     @Test
     public void 일정등록() {
         //given
@@ -60,6 +84,26 @@ public class ScheduleServiceTest {
         //assertThat(schedule1.getEnd_date()).isEqualTo(end_date);
         System.out.println("Start_date() : "+start_date);
         System.out.println("End_date() : "+end_date);
+    }
+
+    @Test
+    public void 일정업데이트(){
+        //given
+        String content = "중간고사";
+        String div = "세종대";
+        Schedule schedule = scheduleRepository.findAll().get(0);
+        ScheduleDTO newDto = new ScheduleDTO(schedule.getId(), div, content, schedule.getStart_date()
+        , schedule.getEnd_date(), schedule.getAll_day());
+
+        scheduleService.update(newDto);
+
+        //when
+        List<Schedule> scheduleList = scheduleRepository.findAll();
+        Schedule schedule1 = scheduleList.get(0);
+
+        //then
+        assertThat(schedule1.getDiv()).isEqualTo(div);
+        assertThat(schedule1.getContent()).isEqualTo(content);
     }
 
 }

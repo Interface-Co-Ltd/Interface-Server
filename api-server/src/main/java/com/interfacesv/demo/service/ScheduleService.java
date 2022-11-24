@@ -47,7 +47,13 @@ public class ScheduleService {
     }
 
     //일정 update
+    @Transactional
+    public ScheduleDTO update(ScheduleDTO scheduleDTO){
+        Schedule schedule = scheduleRepository.findById(scheduleDTO.getId()).get();
+        schedule.update(scheduleDTO.getDiv(), scheduleDTO.getContent(), scheduleDTO.getStart_date(), scheduleDTO.getEnd_date(), scheduleDTO.getAll_day());
 
+        return new ScheduleDTO(schedule);
+    }
 
     //일정 delete
 

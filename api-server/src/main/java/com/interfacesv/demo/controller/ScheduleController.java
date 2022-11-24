@@ -41,4 +41,24 @@ public class ScheduleController {
 
         return ResponseEntity.ok(scheduleDTO);
     }
+
+    @PutMapping(value = "/update")
+    public ResponseEntity<ScheduleDTO> update(@RequestBody Map<String, String> param){
+        String idString = param.get("id");
+        Long id = Long.parseLong(idString);
+        String div = param.get("div");
+        String content = param.get("content");
+        String start_date_string = param.get("start_date");
+        LocalDateTime start_date = LocalDateTime.parse(start_date_string);
+        String end_date_string = param.get("end_date");
+        LocalDateTime end_date = LocalDateTime.parse(end_date_string);
+        String all_day_string = param.get("all_day");
+        Long all_day = Long.parseLong(all_day_string);
+
+        ScheduleDTO scheduleDTO = new ScheduleDTO(id, div, content, start_date,end_date, all_day);
+
+        scheduleDTO = scheduleService.update(scheduleDTO);
+
+        return ResponseEntity.ok(scheduleDTO);
+    }
 }

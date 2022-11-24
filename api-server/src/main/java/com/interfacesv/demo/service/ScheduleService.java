@@ -5,6 +5,7 @@ import com.interfacesv.demo.domain.schedule.ScheduleRepository;
 import com.interfacesv.demo.dto.BoardDto;
 import com.interfacesv.demo.dto.ScheduleDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
 
+    @Autowired
     final private ScheduleRepository scheduleRepository;
 
     @Transactional

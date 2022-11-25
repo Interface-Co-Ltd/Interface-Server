@@ -27,7 +27,7 @@ public class ScheduleController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<ScheduleDto> create(@RequestBody Map<String, String> param){
-        //Long id = Long.parseLong(param.get("id"));
+        Long id = Long.parseLong(param.get("id"));
         String div = param.get("div");
         String content = param.get("content");
         LocalDateTime start_date = LocalDateTime.parse(param.get("start_date"));
@@ -35,7 +35,7 @@ public class ScheduleController {
         Long all_day = Long.parseLong(param.get("all_day"));
 
         Schedule schedule = new Schedule(div, content, start_date,end_date,all_day);
-        ScheduleDto scheduleDTO = new ScheduleDto(schedule);
+        ScheduleDto scheduleDTO = new ScheduleDto(id, div, content, start_date,end_date,all_day);
 
         scheduleService.saveSchedule(scheduleDTO);
 

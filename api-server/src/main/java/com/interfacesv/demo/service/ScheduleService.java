@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,9 +46,9 @@ public class ScheduleService {
 
     //일정 update
     @Transactional
-    public ScheduleDto update(ScheduleDto scheduleDTO){
-        Schedule schedule = scheduleRepository.findById(scheduleDTO.getId()).get();
-        schedule.update(scheduleDTO.getDiv(), scheduleDTO.getContent(), scheduleDTO.getStart_date(), scheduleDTO.getEnd_date(), scheduleDTO.getAll_day());
+    public ScheduleDto update(ScheduleDto scheduleDto){
+        Schedule schedule = scheduleRepository.findById(scheduleDto.getId()).get();
+        schedule.update(scheduleDto.getDiv(), scheduleDto.getContent(), scheduleDto.getStart_date(), scheduleDto.getEnd_date(), scheduleDto.getAll_day());
 
         return new ScheduleDto(schedule);
     }

@@ -13,7 +13,7 @@ public class ScheduleDto {
     private final String content;
     private final LocalDateTime start_date;
     private final LocalDateTime end_date;
-    private Long all_day;
+    private final Long all_day;
 
     @Builder
     public ScheduleDto(Schedule schedule){

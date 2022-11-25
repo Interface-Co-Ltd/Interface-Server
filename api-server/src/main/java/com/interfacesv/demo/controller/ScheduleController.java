@@ -1,7 +1,7 @@
 package com.interfacesv.demo.controller;
 
 import com.interfacesv.demo.domain.schedule.Schedule;
-import com.interfacesv.demo.dto.ScheduleDTO;
+import com.interfacesv.demo.dto.ScheduleDto;
 import com.interfacesv.demo.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,21 +21,21 @@ public class ScheduleController {
     private ScheduleService scheduleService;
 
     @GetMapping(value = "/")
-    public ResponseEntity<List<ScheduleDTO>> findAllSchedule() {
+    public ResponseEntity<List<ScheduleDto>> findAllSchedule() {
         return ResponseEntity.ok(scheduleService.findAll());
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<ScheduleDTO> create(@RequestBody Map<String, String> param){
-        Long id = Long.parseLong(param.get("id"));
+    public ResponseEntity<ScheduleDto> create(@RequestBody Map<String, String> param){
+        //Long id = Long.parseLong(param.get("id"));
         String div = param.get("div");
         String content = param.get("content");
         LocalDateTime start_date = LocalDateTime.parse(param.get("start_date"));
         LocalDateTime end_date = LocalDateTime.parse(param.get("end_date"));
         Long all_day = Long.parseLong(param.get("all_day"));
 
-        Schedule schedule = new Schedule(id, div, content, start_date,end_date,all_day);
-        ScheduleDTO scheduleDTO = new ScheduleDTO(schedule);
+        Schedule schedule = new Schedule(div, content, start_date,end_date,all_day);
+        ScheduleDto scheduleDTO = new ScheduleDto(schedule);
 
         scheduleService.saveSchedule(scheduleDTO);
 
@@ -43,7 +43,7 @@ public class ScheduleController {
     }
 
     @PutMapping(value = "/update")
-    public ResponseEntity<ScheduleDTO> update(@RequestBody Map<String, String> param){
+    public ResponseEntity<ScheduleDto> update(@RequestBody Map<String, String> param){
         String idString = param.get("id");
         Long id = Long.parseLong(idString);
         String div = param.get("div");
@@ -55,10 +55,21 @@ public class ScheduleController {
         String all_day_string = param.get("all_day");
         Long all_day = Long.parseLong(all_day_string);
 
-        ScheduleDTO scheduleDTO = new ScheduleDTO(id, div, content, start_date,end_date, all_day);
+        ScheduleDto scheduleDTO = new ScheduleDto(id, div, content, start_date,end_date, all_day);
 
         scheduleDTO = scheduleService.update(scheduleDTO);
 
         return ResponseEntity.ok(scheduleDTO);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> delete(@RequestParam("id")Long id){
+        scheduleService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "/findById")
+    public ResponseEntity<ScheduleDto> findById(@RequestParam("id")Long id){
+        return ResponseEntity.ok(scheduleService.findById(id));
     }
 }

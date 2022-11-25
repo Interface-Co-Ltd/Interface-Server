@@ -5,6 +5,7 @@ import com.interfacesv.demo.domain.BaseTimeEntity.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,19 +26,20 @@ public class Schedule extends BaseTimeEntity {
     private String content;
 
     @Column
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime start_date;
 
     @Column
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime end_date;
 
     @Column
     private Long all_day;
 
     @Builder
-    public Schedule(Long id, String div, String content, LocalDateTime start_date, LocalDateTime end_date, Long all_day) {
-        this.id = id;
+    public Schedule(String div, String content, LocalDateTime start_date, LocalDateTime end_date, Long all_day) {
         this.div = div;
         this.content = content;
         this.start_date = start_date;

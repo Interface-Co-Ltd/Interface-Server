@@ -2,13 +2,14 @@ package com.interfacesv.demo.service;
 
 import com.interfacesv.demo.domain.schedule.Schedule;
 import com.interfacesv.demo.domain.schedule.ScheduleRepository;
-import com.interfacesv.demo.dto.BoardDto;
-import com.interfacesv.demo.dto.ScheduleDTO;
+import com.interfacesv.demo.dto.ScheduleDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,22 +21,21 @@ public class ScheduleService {
     final private ScheduleRepository scheduleRepository;
 
     @Transactional
-    public List<ScheduleDTO> findAll(){
-        List<ScheduleDTO> scheduleDTOList = new ArrayList<>();
-        List<Schedule> scheduleList = new ArrayList<>();
+    public List<ScheduleDto> findAll(){
+        List<ScheduleDto> scheduleDtoList = new ArrayList<>();
+        List<Schedule> scheduleList = scheduleRepository.findAll();
 
         for(Schedule schedules: scheduleList){
-            scheduleDTOList.add(new ScheduleDTO(schedules));
+            scheduleDtoList.add(new ScheduleDto(schedules));
         }
 
-        return scheduleDTOList;
+        return scheduleDtoList;
     }
 
     // 일정 create
     @Transactional
-    public void saveSchedule(ScheduleDTO scheduleDTO){
+    public void saveSchedule(ScheduleDto scheduleDTO){
         Schedule schedule = Schedule.builder()
-                .id(scheduleDTO.getId())
                 .div(scheduleDTO.getDiv())
                 .content(scheduleDTO.getContent())
                 .all_day(scheduleDTO.getAll_day())
@@ -48,15 +48,25 @@ public class ScheduleService {
 
     //일정 update
     @Transactional
-    public ScheduleDTO update(ScheduleDTO scheduleDTO){
+    public ScheduleDto update(ScheduleDto scheduleDTO){
         Schedule schedule = scheduleRepository.findById(scheduleDTO.getId()).get();
         schedule.update(scheduleDTO.getDiv(), scheduleDTO.getContent(), scheduleDTO.getStart_date(), scheduleDTO.getEnd_date(), scheduleDTO.getAll_day());
 
-        return new ScheduleDTO(schedule);
+        return new ScheduleDto(schedule);
     }
 
     //일정 delete
+    @Transactional
+    public void deleteById(Long id){
+        scheduleRepository.deleteById(id);
+    }
 
-    //날짜별 일정 검색
+    //일정 검색
+    @Transactional
+    public ScheduleDto findById(Long id){
+        Schedule schedule = scheduleRepository.getById(id);
+        ScheduleDto scheduleDto = new ScheduleDto(schedule);
 
+        return scheduleDto;
+    }
 }

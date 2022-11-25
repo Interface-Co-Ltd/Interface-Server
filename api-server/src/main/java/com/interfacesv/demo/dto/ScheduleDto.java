@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class ScheduleDTO {
+public class ScheduleDto {
     private final Long id;
     private final String div;
     private final String content;
@@ -16,7 +16,7 @@ public class ScheduleDTO {
     private Long all_day;
 
     @Builder
-    public ScheduleDTO(Schedule schedule){
+    public ScheduleDto(Schedule schedule){
         this.id = schedule.getId();
         this.div = schedule.getDiv();
         this.content = schedule.getContent();
@@ -25,7 +25,7 @@ public class ScheduleDTO {
         this.all_day = schedule.getAll_day();
     }
 
-    public ScheduleDTO(Long id, String div, String content, LocalDateTime start_date, LocalDateTime end_date, Long all_day){
+    public ScheduleDto(Long id, String div, String content, LocalDateTime start_date, LocalDateTime end_date, Long all_day){
         this.id = id;
         this.div = div;
         this.content = content;

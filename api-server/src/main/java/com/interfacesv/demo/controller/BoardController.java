@@ -3,11 +3,14 @@ package com.interfacesv.demo.controller;
 import com.interfacesv.demo.domain.board.BoardRepository;
 import com.interfacesv.demo.domain.image.ImageRepository;
 import com.interfacesv.demo.dto.BoardDto;
+import com.interfacesv.demo.dto.ImageDto;
 import com.interfacesv.demo.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +38,17 @@ public class BoardController {
 
         BoardDto boardDto = new BoardDto(0L, title, content, type, studentId, "", ""); // id가 0L인 이유 : 어차피 사용안하고 자동지정이므로 쓰레기값을 아무것이나 넣어줌
 
-        //boardDto = boardService.save(boardDto);  //이걸 우째야 될까여
+        boardDto = boardService.save(boardDto);
+
+        return ResponseEntity.ok(boardDto);
+    }
+
+    //multipart/form-data 형식으로 보내야함!!!!!!!!!!!!!!!!!!!!
+    @PostMapping(value = "/createImages")
+    public ResponseEntity<BoardDto> createImages(@RequestParam("files")  List<MultipartFile> multipartFileList, @RequestParam("boardId") Long boardId) {
+        List<ImageDto> imageDtoList = boardService.saveImages(boardId, multipartFileList);
+
+        BoardDto boardDto = boardService.findById(boardId);
 
         return ResponseEntity.ok(boardDto);
     }

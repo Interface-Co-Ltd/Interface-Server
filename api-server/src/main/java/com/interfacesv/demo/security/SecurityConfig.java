@@ -28,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/css/**", "/js/**", "/images/**"); //static 하위폴더에는 무조건 접근 가능해야함
     }
 
+    // 마지막 단계에 개발 ㄱ
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception { //http 관련 인증 설정이 가능합니다. (REST API로 할 것이기 때문에 세션이아닌 JTW 토큰 발급으로 변경해야함)
 //        http.authorizeRequests()

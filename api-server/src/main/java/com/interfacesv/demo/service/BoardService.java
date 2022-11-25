@@ -31,7 +31,10 @@ public class BoardService {
 
     @Transactional
     public BoardDto findById(Long id) {
-        return new BoardDto(boardRepository.findById(id).get(), image.toDtoList(boardRepository.findById(id).get().getImages()));
+        Board board = boardRepository.findById(id).get();
+        List<Image> imageList = board.getImages();
+
+        return new BoardDto(board, board.toDtoList(imageList));
     }
 
     @Transactional
@@ -60,8 +63,9 @@ public class BoardService {
         return boardDtoList;
     }
 
+    // Exception handling 해줘야 함!
     @Transactional
-    public BoardDto save(BoardDto boardDto, List<MultipartFile> files) throws Exception {
+    public BoardDto save(BoardDto boardDto) {
         Board board = Board.builder()
                 .title(boardDto.getTitle())
                 .content(boardDto.getContent())
@@ -71,21 +75,7 @@ public class BoardService {
 
         boardRepository.save(board);
 
-        List<Image> list = fileHandler.parseFileInfo(board, files);
-
-        List<ImageDto> pictureBeans;
-
-        if(list.isEmpty()){
-            return new BoardDto(board, null);
-        }
-        else{
-            pictureBeans = new ArrayList<>();
-            for(Image images: list){
-                pictureBeans.add(new ImageDto(imageRepository.save(images)));
-            }
-        }
-
-        BoardDto boardDtoResult = new BoardDto(board, pictureBeans);
+        BoardDto boardDtoResult = new BoardDto(board, new ArrayList<>());
 
         return boardDtoResult;
     }
@@ -101,6 +91,36 @@ public class BoardService {
         return new BoardDto(board, image.toDtoList(images));
     }
 
+    @Transactional
+    public List<ImageDto> saveImages(Long boardId, List<MultipartFile> multipartFileList) {
+        Board board = boardRepository.findById(boardId).get();
+
+        if(board == null) {
+            List<ImageDto> emptyList = new ArrayList<>();
+            System.out.println("test Board Entity Not found!\n");
+            return emptyList;
+        }
+
+        List<Image> imageList;
+        try {
+            imageList = fileHandler.parseFileInfo(board, multipartFileList);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if(imageList.isEmpty()) {
+            // TODO : 이미지가 하나도 없다면?.. http 요청때 BAD ACCESS가 뜨는가?
+        }
+        else {
+            for(int i=0;i<imageList.size();i++) {
+                imageRepository.save(imageList.get(i));
+            }
+        }
+
+        return image.toDtoList(imageList);
+    }
+
+    @Transactional
     public void deleteBoardImageByBoardId(Long boardId){
         Board board = boardRepository.getById(boardId);
         List<Image> imageList = imageRepository.findAllByBoard(board);

@@ -68,7 +68,10 @@ public class FileHandler {
                         .uuid(UUID.randomUUID().toString())
                         .fileName(multipartFile.getOriginalFilename())
                         .uploadPath(path+"/"+new_file_name)
+                        .board(board)
                         .build();
+
+                imageList.add(image);
 
                 //저장된 파일로 변경해 이를 보여줌
                 file = new File(absolutePath + path + "/" + new_file_name);

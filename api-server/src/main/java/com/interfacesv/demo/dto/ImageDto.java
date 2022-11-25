@@ -11,13 +11,13 @@ public class ImageDto {
     public final String uuid;
     public final String uploadPath;
     public final String fileName;
-    public final Board board;
+    public final Long boardid;
 
     @Builder
     public ImageDto(Image image){
         this.uuid = image.getUuid();
         this.uploadPath = image.getUploadPath();
         this.fileName = image.getFileName();
-        this.board = image.getBoard();
+        this.boardid = image.getBoard().getId();
     }
 }

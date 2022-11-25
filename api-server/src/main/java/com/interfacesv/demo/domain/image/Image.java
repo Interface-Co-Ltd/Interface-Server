@@ -1,5 +1,6 @@
 package com.interfacesv.demo.domain.image;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.interfacesv.demo.domain.BaseTimeEntity.BaseTimeEntity;
 import com.interfacesv.demo.domain.board.Board;
 import com.interfacesv.demo.dto.ImageDto;
@@ -37,6 +38,7 @@ public class Image extends BaseTimeEntity {
 //    private Product product; // 대상 테이블은 매핑된 Entity의 오브젝트형을 보고 자동으로 정함 (여기선 Product)
 
     //@Nullable
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="board") // name은 Image 테이블에서의 칼럼명을 지정하는 것임 Build할때 board객체를 넣으면 자동으로 board객체의 PK가 들어가면서 생성됨
     private Board board; // 대상 테이블은 매핑된 Entity의 오브젝트형을 보고 자동으로 정함 (여기선 Board)
@@ -65,14 +67,5 @@ public class Image extends BaseTimeEntity {
         }
 
         return imageDtoList;
-    }
-
-    public Image dtoToEntity(ImageDto imageDto, Board board){
-        return Image.builder()
-                .uuid(imageDto.getUuid())
-                .uploadPath(imageDto.getUploadPath())
-                .fileName(imageDto.getFileName())
-                .board(imageDto.getBoard())
-                .build();
     }
 }

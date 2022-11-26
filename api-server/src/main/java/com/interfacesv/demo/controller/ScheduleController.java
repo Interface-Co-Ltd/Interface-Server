@@ -1,6 +1,5 @@
 package com.interfacesv.demo.controller;
 
-import com.interfacesv.demo.domain.schedule.Schedule;
 import com.interfacesv.demo.dto.ScheduleDto;
 import com.interfacesv.demo.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -27,19 +26,17 @@ public class ScheduleController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<ScheduleDto> create(@RequestBody Map<String, String> param){
-        Long id = Long.parseLong(param.get("id"));
         String div = param.get("div");
         String content = param.get("content");
         LocalDateTime start_date = LocalDateTime.parse(param.get("start_date"));
         LocalDateTime end_date = LocalDateTime.parse(param.get("end_date"));
         Long all_day = Long.parseLong(param.get("all_day"));
 
-        Schedule schedule = new Schedule(div, content, start_date,end_date,all_day);
-        ScheduleDto scheduleDTO = new ScheduleDto(id, div, content, start_date,end_date,all_day);
+        ScheduleDto scheduleDto = new ScheduleDto(0L, div, content, start_date,end_date,all_day);
 
-        scheduleService.saveSchedule(scheduleDTO);
+        scheduleDto = scheduleService.save(scheduleDto);
 
-        return ResponseEntity.ok(scheduleDTO);
+        return ResponseEntity.ok(scheduleDto);
     }
 
     @PutMapping(value = "/update")
@@ -55,11 +52,11 @@ public class ScheduleController {
         String all_day_string = param.get("all_day");
         Long all_day = Long.parseLong(all_day_string);
 
-        ScheduleDto scheduleDTO = new ScheduleDto(id, div, content, start_date,end_date, all_day);
+        ScheduleDto scheduleDto = new ScheduleDto(id, div, content, start_date,end_date, all_day);
 
-        scheduleDTO = scheduleService.update(scheduleDTO);
+        scheduleDto = scheduleService.update(scheduleDto);
 
-        return ResponseEntity.ok(scheduleDTO);
+        return ResponseEntity.ok(scheduleDto);
     }
 
     @DeleteMapping("/delete")

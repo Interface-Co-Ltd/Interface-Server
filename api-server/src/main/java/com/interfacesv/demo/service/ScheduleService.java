@@ -32,16 +32,18 @@ public class ScheduleService {
 
     // 일정 create
     @Transactional
-    public void saveSchedule(ScheduleDto scheduleDTO){
+    public ScheduleDto save(ScheduleDto scheduleDto){
         Schedule schedule = Schedule.builder()
-                .div(scheduleDTO.getDiv())
-                .content(scheduleDTO.getContent())
-                .all_day(scheduleDTO.getAll_day())
-                .start_date(scheduleDTO.getStart_date())
-                .end_date(scheduleDTO.getEnd_date())
+                .div(scheduleDto.getDiv())
+                .content(scheduleDto.getContent())
+                .all_day(scheduleDto.getAll_day())
+                .start_date(scheduleDto.getStart_date())
+                .end_date(scheduleDto.getEnd_date())
                 .build();
 
-        scheduleRepository.save(schedule);
+        schedule = scheduleRepository.save(schedule);
+
+        return new ScheduleDto(schedule);
     }
 
     //일정 update

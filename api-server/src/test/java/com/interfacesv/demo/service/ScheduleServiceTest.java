@@ -46,7 +46,7 @@ public class ScheduleServiceTest {
                 .build();
 
         ScheduleDto scheduleDTO = new ScheduleDto(schedule);
-        scheduleService.saveSchedule(scheduleDTO);
+        scheduleService.save(scheduleDTO);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class ScheduleServiceTest {
 
         ScheduleDto scheduleDTO = new ScheduleDto(schedule);
         System.out.println("schedule id : "+scheduleDTO.getId());
-        scheduleService.saveSchedule(scheduleDTO);
+        scheduleService.save(scheduleDTO);
 
         //when
         List<ScheduleDto> scheduleDtoList = scheduleService.findAll();

@@ -1,9 +1,11 @@
 package com.interfacesv.demo.domain.schedule;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.interfacesv.demo.domain.BaseTimeEntity.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -24,9 +26,13 @@ public class Schedule extends BaseTimeEntity {
     private String content;
 
     @Column
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime start_date;
 
     @Column
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime end_date;
 
     @Column

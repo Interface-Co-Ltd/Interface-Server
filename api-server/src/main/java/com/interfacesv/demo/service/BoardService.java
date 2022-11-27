@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class BoardService {
     final private Image image = new Image();
 
     @Transactional
-    public BoardDto findById(Long id) {
+    public BoardDto findById(Long id) throws EntityNotFoundException {
         Board board = boardRepository.findById(id).get();
         List<Image> imageList = board.getImages();
 
@@ -38,7 +39,7 @@ public class BoardService {
     }
 
     @Transactional
-    public List<BoardDto> findAll() {
+    public List<BoardDto> findAll() throws EntityNotFoundException {
         List<BoardDto> boardDtoList = new ArrayList<>();
         List<Board> boardList = boardRepository.findAll();
 
@@ -121,7 +122,7 @@ public class BoardService {
     }
 
     @Transactional
-    public void deleteBoardImageByBoardId(Long boardId){
+    public void deleteBoardImageByBoardId(Long boardId) {
         Board board = boardRepository.getById(boardId);
         List<Image> imageList = imageRepository.findAllByBoard(board);
 

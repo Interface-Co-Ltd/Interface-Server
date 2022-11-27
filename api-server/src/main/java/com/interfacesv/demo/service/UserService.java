@@ -1,37 +1,34 @@
 package com.interfacesv.demo.service;
 
+import com.interfacesv.demo.domain.board.Board;
+import com.interfacesv.demo.domain.board.BoardRepository;
 import com.interfacesv.demo.domain.user.User;
 import com.interfacesv.demo.domain.user.UserRepository;
+import com.interfacesv.demo.dto.LoginUserDto;
 import com.interfacesv.demo.dto.UserDto;
 import com.interfacesv.demo.dto.UserSimple;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import com.interfacesv.demo.exception.CustomException;
+import com.interfacesv.demo.exception.ErrorCode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
-@Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
+    private final BoardRepository boardRepository;
+    private final PasswordEncoder passwordEncoder;
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    /*
-    Spring Security 필수 메소드 구현
-    @param email 이메일
-    @return UserDetails
-    @throws UsernameNotfoundException 유저가 없을 때 예외 발생
-     */
-
-    @Transactional
-    @Override //기본적인 반환 타입은 UserDetails, UserDetails를 상속받은 UserInfo로 반환 타입 지정 (자동으로 다운 캐스팅됨)
-    public User loadUserByUsername(String studentId) throws UsernameNotFoundException { //시큐리티에서 지정한 서비스이기 때문에 이 메소드를 필수로 구현
-        return userRepository.findByStudentId(studentId)
-                .orElseThrow(() -> new UsernameNotFoundException((studentId))); //람다 표현 공부필요
+    @Autowired
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, BoardRepository boardRepository) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.boardRepository = boardRepository;
     }
 
     /*
@@ -41,7 +38,6 @@ public class UserService implements UserDetailsService {
      */
     @Transactional
     public Long save(UserDto userDto) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         userDto.setPassword(encoder.encode(userDto.getPassword())); //입력받은 비밀번호를 BCrypt로 암호화한 후에 회원 저장
 
         return userRepository.save(User.builder()
@@ -78,6 +74,17 @@ public class UserService implements UserDetailsService {
             return new IllegalArgumentException("회원 조회 실패");
         });
 
+        List<Board> boardList = boardRepository.findAll();
+
+        for(int i=0;i<boardList.size();i++) {
+            if(boardList.get(i).getUser().getStudentId().equals(studentId)) {
+                boardList.get(i).update(boardList.get(i).getTitle(),
+                        boardList.get(i).getContent(),
+                        boardList.get(i).getType(),
+                        null);
+            }
+        }
+
         userRepository.delete(user);
 
         return;
@@ -102,4 +109,14 @@ public class UserService implements UserDetailsService {
         return new UserSimple(userRepository.findByStudentId(studentId).get());
     }
 
+    //로그인
+    public User login(LoginUserDto loginUserDto) {
+        User user = userRepository.findByStudentId(loginUserDto.getStudentId()).orElseThrow(
+                () -> new CustomException(ErrorCode.NO_USER)
+        );
+        if (!encoder.matches(loginUserDto.getPassword(), user.getPassword())) {
+            throw new CustomException(ErrorCode.NO_PASSWORD);
+        }
+        return user;
+    }
 }

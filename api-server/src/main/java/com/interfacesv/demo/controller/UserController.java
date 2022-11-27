@@ -1,17 +1,14 @@
 package com.interfacesv.demo.controller;
 
-import com.interfacesv.demo.domain.user.User;
 import com.interfacesv.demo.dto.UserDto;
 import com.interfacesv.demo.dto.UserSimple;
 import com.interfacesv.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<List<UserSimple>> findAllUser() {
+    public ResponseEntity<List<UserSimple>> findAllUser() throws IllegalArgumentException{
         return ResponseEntity.ok(userService.findAll());
     }
 

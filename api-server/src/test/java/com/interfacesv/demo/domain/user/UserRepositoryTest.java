@@ -1,8 +1,7 @@
 package com.interfacesv.demo.domain.user;
 
 import com.interfacesv.demo.dto.UserDto;
-import com.interfacesv.demo.service.UserService;
-import org.junit.After;
+import com.interfacesv.demo.service.UserDetailsServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +22,7 @@ public class UserRepositoryTest {
     UserRepository userRepository;
 
     @Autowired
-    UserService userService;
+    UserDetailsServiceImpl userDetailsServiceImpl;
 
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -51,7 +50,7 @@ public class UserRepositoryTest {
         userDto.setPhone(phone);
         userDto.setBirthday(birthday);
 
-        userService.save(userDto);
+        userDetailsServiceImpl.save(userDto);
 
         List<User> userList = userRepository.findAll();
         User user = userList.get(0);

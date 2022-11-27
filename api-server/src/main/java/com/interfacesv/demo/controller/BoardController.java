@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,8 @@ public class BoardController {
 
     @GetMapping(value = "")
     public ResponseEntity<List<BoardDto>> findAllBoard() {
-        return ResponseEntity.ok(boardService.findAll());
+        List<BoardDto> boardDtoList = boardService.findAll();
+        return ResponseEntity.ok(boardDtoList);
     }
 
     @PostMapping(value = "/create")

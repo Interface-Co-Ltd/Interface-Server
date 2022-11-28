@@ -9,14 +9,18 @@ import com.interfacesv.demo.dto.UserDto;
 import com.interfacesv.demo.dto.UserSimple;
 import com.interfacesv.demo.exception.CustomException;
 import com.interfacesv.demo.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
+@Service
 public class UserService {
 
     private final UserRepository userRepository;

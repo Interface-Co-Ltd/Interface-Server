@@ -118,7 +118,11 @@ public class UserService {
         User user = userRepository.findByStudentId(loginUserDto.getStudentId()).orElseThrow(
                 () -> new CustomException(ErrorCode.NO_USER)
         );
-        if (!encoder.matches(loginUserDto.getPassword(), user.getPassword())) {
+        //if (!encoder.matches(loginUserDto.getPassword(), user.getPassword())) {
+            //throw new CustomException(ErrorCode.NO_PASSWORD);
+        //}
+
+        if(!loginUserDto.getPassword().equals(user.getPassword())){
             throw new CustomException(ErrorCode.NO_PASSWORD);
         }
         return user;

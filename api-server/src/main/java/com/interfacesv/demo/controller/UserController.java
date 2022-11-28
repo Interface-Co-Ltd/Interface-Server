@@ -4,6 +4,7 @@ import com.interfacesv.demo.dto.UserDto;
 import com.interfacesv.demo.dto.UserSimple;
 import com.interfacesv.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/user")
 public class UserController {
 
+    @Autowired
     private final UserService userService;
 
     @GetMapping("")

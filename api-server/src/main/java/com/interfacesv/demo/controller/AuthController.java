@@ -1,5 +1,6 @@
 package com.interfacesv.demo.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.interfacesv.demo.component.JwtTokenProvider;
 import com.interfacesv.demo.domain.user.User;
 import com.interfacesv.demo.dto.LoginUserDto;
@@ -7,6 +8,7 @@ import com.interfacesv.demo.service.UserDetailsServiceImpl;
 import com.interfacesv.demo.service.UserService;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +24,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseBody
-    public String login(@RequestBody Map<String,String> param, HttpServletResponse response) {
+    public JSONPObject login(@RequestBody Map<String,String> param, HttpServletResponse response) {
         String studentId = param.get("studentId");
         String password = param.get("password");
 
@@ -35,6 +37,15 @@ public class AuthController {
         String token = jwtTokenProvider.createToken(checkStudentId, role);
         response.setHeader("JWT", token);
 
-        return token;
+        //Json 문자열
+        String strJson = "{ \"token\" : \""+token+"\"}";
+
+        //parser
+        Object obj = new JSONParser(strJson);
+
+        //To Jsonobject
+        JSONPObject jsonObj = (JSONPObject) obj;
+
+        return jsonObj;
     }
 }

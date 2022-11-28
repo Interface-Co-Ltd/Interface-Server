@@ -38,6 +38,8 @@ public class AuthController {
         String token = jwtTokenProvider.createToken(checkStudentId, role);
         response.setHeader("JWT", token);
 
-        return ResponseEntity.ok(token);
+        String token_json = "{ \"token\": \""+token+"\"}";
+
+        return ResponseEntity.ok(token_json);
     }
 }

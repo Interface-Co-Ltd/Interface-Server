@@ -40,3 +40,7 @@ dependencies {
 test {
 	exclude '**/*'
 }
+
+jar {
+	enabled = false //plain.jar 생성 방지
+}

@@ -9,6 +9,7 @@ import com.interfacesv.demo.service.UserService;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.json.JSONParser;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +25,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseBody
-    public JSONPObject login(@RequestBody Map<String,String> param, HttpServletResponse response) {
+    public ResponseEntity<String> login(@RequestBody Map<String,String> param, HttpServletResponse response) {
         String studentId = param.get("studentId");
         String password = param.get("password");
 
@@ -37,15 +38,6 @@ public class AuthController {
         String token = jwtTokenProvider.createToken(checkStudentId, role);
         response.setHeader("JWT", token);
 
-        //Json 문자열
-        String strJson = "{ \"token\" : \""+token+"\"}";
-
-        //parser
-        Object obj = new JSONParser(strJson);
-
-        //To Jsonobject
-        JSONPObject jsonObj = (JSONPObject) obj;
-
-        return jsonObj;
+        return ResponseEntity.ok(token);
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +39,8 @@ public class ScheduleService {
                 .div(scheduleDto.getDiv())
                 .content(scheduleDto.getContent())
                 .all_day(scheduleDto.getAll_day())
-                .start_date(scheduleDto.getStart_date())
-                .end_date(scheduleDto.getEnd_date())
+                .start_date(LocalDateTime.parse(scheduleDto.getStart_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .end_date(LocalDateTime.parse(scheduleDto.getEnd_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .build();
 
         schedule = scheduleRepository.save(schedule);
@@ -50,7 +52,9 @@ public class ScheduleService {
     @Transactional
     public ScheduleDto update(ScheduleDto scheduleDto){
         Schedule schedule = scheduleRepository.findById(scheduleDto.getId()).get();
-        schedule.update(scheduleDto.getDiv(), scheduleDto.getContent(), scheduleDto.getStart_date(), scheduleDto.getEnd_date(), scheduleDto.getAll_day());
+        LocalDateTime l_start_date = LocalDateTime.parse(scheduleDto.getStart_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime l_end_date = LocalDateTime.parse(scheduleDto.getEnd_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        schedule.update(scheduleDto.getDiv(), scheduleDto.getContent(), l_start_date, l_end_date, scheduleDto.getAll_day());
 
         return new ScheduleDto(schedule);
     }

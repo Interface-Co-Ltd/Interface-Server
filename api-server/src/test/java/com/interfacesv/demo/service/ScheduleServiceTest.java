@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -90,8 +91,8 @@ public class ScheduleServiceTest {
         String content = "기말고사";
         String div = "sejong";
         Schedule schedule = scheduleRepository.findAll().get(0);
-        ScheduleDto newDto = new ScheduleDto(schedule.getId(), div, content, schedule.getStart_date()
-        , schedule.getEnd_date(), schedule.getAll_day());
+        ScheduleDto newDto = new ScheduleDto(schedule.getId(), div, content, schedule.getStart_date().format(DateTimeFormatter.ISO_DATE_TIME)
+        , schedule.getEnd_date().format(DateTimeFormatter.ISO_DATE_TIME), schedule.getAll_day());
 
         scheduleService.update(newDto);
 

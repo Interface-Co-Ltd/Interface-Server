@@ -28,8 +28,8 @@ public class ScheduleController {
     public ResponseEntity<ScheduleDto> create(@RequestBody Map<String, String> param){
         String div = param.get("div");
         String content = param.get("content");
-        LocalDateTime start_date = LocalDateTime.parse(param.get("start_date"));
-        LocalDateTime end_date = LocalDateTime.parse(param.get("end_date"));
+        String start_date = param.get("start_date");
+        String end_date = param.get("end_date");
         Long all_day = Long.parseLong(param.get("all_day"));
 
         ScheduleDto scheduleDto = new ScheduleDto(0L, div, content, start_date,end_date,all_day);
@@ -52,7 +52,7 @@ public class ScheduleController {
         String all_day_string = param.get("all_day");
         Long all_day = Long.parseLong(all_day_string);
 
-        ScheduleDto scheduleDto = new ScheduleDto(id, div, content, start_date,end_date, all_day);
+        ScheduleDto scheduleDto = new ScheduleDto(id, div, content, start_date_string,end_date_string, all_day);
 
         scheduleDto = scheduleService.update(scheduleDto);
 

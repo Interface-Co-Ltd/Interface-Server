@@ -11,8 +11,8 @@ public class ScheduleDto {
     private final Long id;
     private final String div;
     private final String content;
-    private final LocalDateTime start_date;
-    private final LocalDateTime end_date;
+    private final String start_date;
+    private final String end_date;
     private final Long all_day;
 
     @Builder
@@ -25,7 +25,7 @@ public class ScheduleDto {
         this.all_day = schedule.getAll_day();
     }
 
-    public ScheduleDto(Long id, String div, String content, LocalDateTime start_date, LocalDateTime end_date, Long all_day){
+    public ScheduleDto(Long id, String div, String content, String start_date, String end_date, Long all_day){
         this.id = id;
         this.div = div;
         this.content = content;

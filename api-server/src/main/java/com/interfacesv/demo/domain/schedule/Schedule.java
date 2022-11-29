@@ -26,20 +26,20 @@ public class Schedule extends BaseTimeEntity {
     private String content;
 
     @Column
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime start_date;
+    //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ssZ", timezone = "Asia/Seoul")
+    private String start_date;
 
     @Column
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime end_date;
+    //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ssZ", timezone = "Asia/Seoul")
+    private String end_date;
 
     @Column
     private Long all_day;
 
     @Builder
-    public Schedule(String div, String content, LocalDateTime start_date, LocalDateTime end_date, Long all_day) {
+    public Schedule(String div, String content, String start_date, String end_date, Long all_day) {
         this.div = div;
         this.content = content;
         this.start_date = start_date;
@@ -47,7 +47,7 @@ public class Schedule extends BaseTimeEntity {
         this.all_day = all_day;
     }
 
-    public void update(String div, String content, LocalDateTime start_date, LocalDateTime end_date, Long all_day) {
+    public void update(String div, String content, String start_date, String end_date, Long all_day) {
         this.div = div;
         this.content = content;
         this.start_date = start_date;

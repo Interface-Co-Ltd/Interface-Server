@@ -1,5 +1,6 @@
 package com.interfacesv.demo.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.interfacesv.demo.component.FileHandler;
 import com.interfacesv.demo.domain.board.Board;
 import com.interfacesv.demo.domain.board.BoardRepository;

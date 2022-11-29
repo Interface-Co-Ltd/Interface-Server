@@ -6,6 +6,7 @@ import com.interfacesv.demo.domain.user.User;
 import com.interfacesv.demo.dto.LoginUserDto;
 import com.interfacesv.demo.service.UserDetailsServiceImpl;
 import com.interfacesv.demo.service.UserService;
+import com.interfacesv.demo.service.messageService.FCMService;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.json.JSONParser;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class AuthController {
 
     private final UserService userService;
+    private final FCMService fcmService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
@@ -28,8 +30,9 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody Map<String,String> param, HttpServletResponse response) {
         String studentId = param.get("studentId");
         String password = param.get("password");
+        String fcmToken = param.get("fcmToken");
 
-        LoginUserDto loginUserDto = new LoginUserDto(studentId, password);
+        LoginUserDto loginUserDto = new LoginUserDto(studentId, password, fcmToken);
 
         User user = userService.login(loginUserDto);
         String checkStudentId = user.getStudentId();
@@ -39,6 +42,9 @@ public class AuthController {
         response.setHeader("JWT", token);
 
         String token_json = "{ \"token\": \""+token+"\"}";
+
+
+        fcmService.saveToken(loginUserDto);
 
         return ResponseEntity.ok(token_json);
     }

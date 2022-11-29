@@ -1,0 +1,53 @@
+package com.interfacesv.demo.service.messageService;
+
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.Message;
+import com.interfacesv.demo.dao.FCMTokenDao;
+import com.interfacesv.demo.domain.user.User;
+import com.interfacesv.demo.domain.user.UserRepository;
+import com.interfacesv.demo.dto.LoginUserDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@RequiredArgsConstructor
+@Service
+public class FCMService {
+
+    private final FCMTokenDao fcmTokenDao;
+    private final UserRepository userRepository;
+
+    public void sendNewNoticePosted(String title, String content) {
+        List<User> userList = userRepository.findAll();
+
+        for(int i=0;i<userList.size();i++) {
+            String studentId = userList.get(i).getStudentId();
+            if (!fcmTokenDao.hasKey(studentId)) {
+                continue;
+            }
+
+            String fcmToken = fcmTokenDao.getToken(studentId);
+            Message message = Message.builder()
+                    .putData("title", title)
+                    .putData("content", content)
+                    .setToken(fcmToken)
+                    .build();
+
+            send(message);
+        }
+    }
+
+    public void send(Message message) {
+        FirebaseMessaging.getInstance().sendAsync(message);
+    }
+
+    public void saveToken(LoginUserDto loginUserDto) {
+        if(fcmTokenDao.hasKey(loginUserDto.getStudentId())) {
+            return;
+        }
+        else {
+            fcmTokenDao.saveToken(loginUserDto);
+        }
+    }
+}

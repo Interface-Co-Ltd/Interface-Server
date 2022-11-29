@@ -26,7 +26,7 @@ public class ScheduleServiceTest {
     @Autowired
     ScheduleService scheduleService;
 
-    @Before
+   /* @Before
     public void before(){
         scheduleRepository.deleteAll();
 
@@ -83,26 +83,6 @@ public class ScheduleServiceTest {
         //assertThat(schedule1.getEnd_date()).isEqualTo(end_date);
         System.out.println("Start_date() : "+start_date);
         System.out.println("End_date() : "+end_date);
-    }
-
-    @Test
-    public void 일정업데이트(){
-        //given
-        String content = "기말고사";
-        String div = "sejong";
-        Schedule schedule = scheduleRepository.findAll().get(0);
-        ScheduleDto newDto = new ScheduleDto(schedule.getId(), div, content, schedule.getStart_date().format(DateTimeFormatter.ISO_DATE_TIME)
-        , schedule.getEnd_date().format(DateTimeFormatter.ISO_DATE_TIME), schedule.getAll_day());
-
-        scheduleService.update(newDto);
-
-        //when
-        List<ScheduleDto> scheduleDtoList = scheduleService.findAll();
-        ScheduleDto schedule1 = scheduleDtoList.get(0);
-
-        //then
-        assertThat(schedule1.getDiv()).isEqualTo(div);
-        assertThat(schedule1.getContent()).isEqualTo(content);
-    }
+    }*/
 
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class ScheduleController {
         String end_date = param.get("end_date");
         Long all_day = Long.parseLong(param.get("all_day"));
 
-        ScheduleDto scheduleDto = new ScheduleDto(0L, div, content, start_date,end_date,all_day);
+        ScheduleDto scheduleDto = new ScheduleDto(0L, div, content, start_date, end_date, all_day);
 
         scheduleDto = scheduleService.save(scheduleDto);
 
@@ -45,14 +46,12 @@ public class ScheduleController {
         Long id = Long.parseLong(idString);
         String div = param.get("div");
         String content = param.get("content");
-        String start_date_string = param.get("start_date");
-        LocalDateTime start_date = LocalDateTime.parse(start_date_string);
-        String end_date_string = param.get("end_date");
-        LocalDateTime end_date = LocalDateTime.parse(end_date_string);
+        String start_date = param.get("start_date");
+        String end_date = param.get("end_date");
         String all_day_string = param.get("all_day");
         Long all_day = Long.parseLong(all_day_string);
 
-        ScheduleDto scheduleDto = new ScheduleDto(id, div, content, start_date_string,end_date_string, all_day);
+        ScheduleDto scheduleDto = new ScheduleDto(id, div, content, start_date, end_date, all_day);
 
         scheduleDto = scheduleService.update(scheduleDto);
 

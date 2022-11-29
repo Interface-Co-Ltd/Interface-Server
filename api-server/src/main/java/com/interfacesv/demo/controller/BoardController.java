@@ -5,6 +5,7 @@ import com.interfacesv.demo.domain.image.ImageRepository;
 import com.interfacesv.demo.dto.BoardDto;
 import com.interfacesv.demo.dto.ImageDto;
 import com.interfacesv.demo.service.BoardService;
+import com.interfacesv.demo.service.messageService.FCMService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class BoardController {
 
     private final BoardService boardService;
+    private final FCMService fcmService;
 
     private final BoardRepository boardRepository;
     private final ImageRepository imageRepository;
@@ -41,6 +43,7 @@ public class BoardController {
         BoardDto boardDto = new BoardDto(0L, title, content, type, studentId, "", ""); // id가 0L인 이유 : 어차피 사용안하고 자동지정이므로 쓰레기값을 아무것이나 넣어줌
 
         boardDto = boardService.save(boardDto);
+        fcmService.sendNewNoticePosted(boardDto.getTitle(), boardDto.getContent());
 
         return ResponseEntity.ok(boardDto);
     }

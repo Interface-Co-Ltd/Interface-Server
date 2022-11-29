@@ -10,6 +10,7 @@ import com.interfacesv.demo.service.messageService.FCMService;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.json.JSONParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,8 +44,9 @@ public class AuthController {
 
         String token_json = "{ \"token\": \""+token+"\"}";
 
-
         fcmService.saveToken(loginUserDto);
+
+        fcmService.sendNewNoticePosted("Login Alarm", "로그인에 성공하였습니다!");
 
         return ResponseEntity.ok(token_json);
     }

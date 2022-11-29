@@ -26,14 +26,6 @@ public class Schedule extends BaseTimeEntity {
     private String content;
 
     @Column
-<<<<<<< HEAD
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime start_date;
-
-    @Column
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime end_date;
-=======
     //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ssZ", timezone = "Asia/Seoul")
     private String start_date;
@@ -42,7 +34,6 @@ public class Schedule extends BaseTimeEntity {
     //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ssZ", timezone = "Asia/Seoul")
     private String end_date;
->>>>>>> develop
 
     @Column
     private Long all_day;

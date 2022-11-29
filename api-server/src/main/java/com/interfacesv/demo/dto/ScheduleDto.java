@@ -21,8 +21,8 @@ public class ScheduleDto {
         this.id = schedule.getId();
         this.div = schedule.getDiv();
         this.content = schedule.getContent();
-        this.start_date = schedule.getStart_date().format(DateTimeFormatter.ISO_DATE_TIME);
-        this.end_date = schedule.getEnd_date().format(DateTimeFormatter.ISO_DATE_TIME);
+        this.start_date = schedule.getStart_date();
+        this.end_date = schedule.getEnd_date();
         this.all_day = schedule.getAll_day();
     }
 

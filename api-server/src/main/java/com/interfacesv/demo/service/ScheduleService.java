@@ -39,8 +39,8 @@ public class ScheduleService {
                 .div(scheduleDto.getDiv())
                 .content(scheduleDto.getContent())
                 .all_day(scheduleDto.getAll_day())
-                .start_date(LocalDateTime.parse(scheduleDto.getStart_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .end_date(LocalDateTime.parse(scheduleDto.getEnd_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .start_date(scheduleDto.getStart_date())
+                .end_date(scheduleDto.getEnd_date())
                 .build();
 
         schedule = scheduleRepository.save(schedule);
@@ -52,9 +52,7 @@ public class ScheduleService {
     @Transactional
     public ScheduleDto update(ScheduleDto scheduleDto){
         Schedule schedule = scheduleRepository.findById(scheduleDto.getId()).get();
-        LocalDateTime l_start_date = LocalDateTime.parse(scheduleDto.getStart_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        LocalDateTime l_end_date = LocalDateTime.parse(scheduleDto.getEnd_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        schedule.update(scheduleDto.getDiv(), scheduleDto.getContent(), l_start_date, l_end_date, scheduleDto.getAll_day());
+        schedule.update(scheduleDto.getDiv(), scheduleDto.getContent(), scheduleDto.getStart_date(), scheduleDto.getEnd_date(), scheduleDto.getAll_day());
 
         return new ScheduleDto(schedule);
     }

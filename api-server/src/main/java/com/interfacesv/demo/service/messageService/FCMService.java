@@ -3,6 +3,7 @@ package com.interfacesv.demo.service.messageService;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 import com.interfacesv.demo.dao.FCMTokenDao;
 import com.interfacesv.demo.domain.user.User;
 import com.interfacesv.demo.domain.user.UserRepository;
@@ -27,11 +28,18 @@ public class FCMService {
             if (!fcmTokenDao.hasKey(studentId)) {
                 continue;
             }
+            title = "[공지] " + title;
 
             String fcmToken = fcmTokenDao.getToken(studentId);
+            Notification notification = Notification.builder()
+                    .setTitle(title)
+                    .setBody(content)
+                    .build();
+            System.out.println("FcmToken : " + fcmToken);
             Message message = Message.builder()
-                    .putData("title", title)
-                    .putData("content", content)
+                    .setNotification(notification)
+//                    .putData("title", title)
+//                    .putData("content", content)
                     .setToken(fcmToken)
                     .build();
 

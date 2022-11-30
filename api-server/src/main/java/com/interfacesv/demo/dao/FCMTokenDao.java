@@ -14,6 +14,7 @@ public class FCMTokenDao {
     public void saveToken(LoginUserDto loginUserDto) {
         tokenRedisTemplate.opsForValue()
                 .set(loginUserDto.getStudentId(), loginUserDto.getToken());
+        tokenRedisTemplate.opsForValue().set("test", "isdata");
     }
 
     public String getToken(String studentId) {

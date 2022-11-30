@@ -55,8 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/api/v1/auth/login", "/exception/**").permitAll() // login, logout
                 .antMatchers("/api/v1/auth/logout").authenticated()
-                .antMatchers("/api/v1/board", "/api/v1/board/findById", "/api/v1/board/findByStudentId", "/api/v1/schedule", "/api/v1/schedule/findById").access("hasRole('USER') or hasRole('ADMIN')") //USER, ADMIN만 접근 가능
-                .antMatchers("/api/v1/board/**","/api/v1/shedule/**", "/api/v1/user/**").hasRole("ADMIN") //ADMIN만 접근 가능
+                .antMatchers("/api/v1/board", "/api/v1/board/findById", "/api/v1/board/findByStudentId", "/api/v1/schedule", "/api/v1/schedule/findById", "/api/v1/cooperation").access("hasRole('USER') or hasRole('ADMIN')") //USER, ADMIN만 접근 가능
+                .antMatchers("/api/v1/board/**","/api/v1/shedule/**", "/api/v1/user/**", "/api/v1/cooperation/**").hasRole("ADMIN") //ADMIN만 접근 가능
                 .anyRequest().authenticated(); //나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근 가능
 
         //JwtFilter 추가

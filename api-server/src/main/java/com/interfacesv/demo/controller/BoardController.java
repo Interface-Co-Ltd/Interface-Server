@@ -43,7 +43,8 @@ public class BoardController {
         BoardDto boardDto = new BoardDto(0L, title, content, type, studentId, "", ""); // id가 0L인 이유 : 어차피 사용안하고 자동지정이므로 쓰레기값을 아무것이나 넣어줌
 
         boardDto = boardService.save(boardDto);
-        fcmService.sendNewNoticePosted(boardDto.getTitle(), boardDto.getContent());
+        // 제대로 된 토큰 들어오기 전에는 꺼둠
+        //fcmService.sendNewNoticePosted(boardDto.getTitle(), boardDto.getContent());
 
         return ResponseEntity.ok(boardDto);
     }

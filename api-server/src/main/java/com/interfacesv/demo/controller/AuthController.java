@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.interfacesv.demo.component.JwtTokenProvider;
 import com.interfacesv.demo.domain.user.User;
 import com.interfacesv.demo.dto.LoginUserDto;
+import com.interfacesv.demo.dto.UserDto;
 import com.interfacesv.demo.service.UserDetailsServiceImpl;
 import com.interfacesv.demo.service.UserService;
 import com.interfacesv.demo.service.messageService.FCMService;
@@ -35,6 +36,12 @@ public class AuthController {
 
         LoginUserDto loginUserDto = new LoginUserDto(studentId, password, fcmToken);
 
+        //User Initial TEST CODE
+        if(userService.findByStudentId(studentId).getStudentId().equals("")) {
+            UserDto userDto = new UserDto(studentId, "INTERFACE_ADMIN", password, studentId + "@sju.ac.kr", "ROLE_ADMIN", "010-1111-1111", "11-11-11");
+            userService.save(userDto);
+        }
+
         User user = userService.login(loginUserDto);
         String checkStudentId = user.getStudentId();
         String role = user.getAuth();
@@ -46,7 +53,8 @@ public class AuthController {
 
         fcmService.saveToken(loginUserDto);
 
-        fcmService.sendNewNoticePosted("Login Alarm", "로그인에 성공하였습니다!");
+        //login alarm
+        //fcmService.sendNewNoticePosted("Login Alarm", "로그인에 성공하였습니다!");
 
         return ResponseEntity.ok(token_json);
     }

@@ -117,7 +117,7 @@ public class UserService {
 
     @Transactional
     public UserSimple findByStudentId(String studentId) {
-        return new UserSimple(userRepository.findByStudentId(studentId).get());
+        return new UserSimple(userRepository.findByStudentId(studentId).orElse(new User(0L, "", "", "", "", "", "", "")));
     }
 
     //로그인

@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### properties ###
+**/src/main/resources/*.properties
+
+### key ###
+**/src/main/resources/interface-c466c-firebase-adminsdk-7jjcd-49eb03303d.json

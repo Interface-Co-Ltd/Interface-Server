@@ -54,7 +54,7 @@ public class AuthController {
         fcmService.saveToken(loginUserDto);
 
         //login alarm
-        //fcmService.sendNewNoticePosted("Login Alarm", "로그인에 성공하였습니다!");
+        fcmService.sendNewNoticePosted("Login Alarm", "로그인에 성공하였습니다!");
 
         return ResponseEntity.ok(token_json);
     }

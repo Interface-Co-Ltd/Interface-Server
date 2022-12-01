@@ -44,7 +44,7 @@ public class BoardController {
 
         boardDto = boardService.save(boardDto);
         // 제대로 된 토큰 들어오기 전에는 꺼둠
-        //fcmService.sendNewNoticePosted(boardDto.getTitle(), boardDto.getContent());
+        fcmService.sendNewNoticePosted(boardDto.getTitle(), boardDto.getContent());
 
         return ResponseEntity.ok(boardDto);
     }

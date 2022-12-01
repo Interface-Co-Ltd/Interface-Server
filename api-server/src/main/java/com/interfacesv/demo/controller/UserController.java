@@ -24,6 +24,13 @@ public class UserController {
         return ResponseEntity.ok(userService.findAll());
     }
 
+    @GetMapping("/findByStudentId")
+    public ResponseEntity<UserSimple> findByStudentId(@RequestParam("studentId")String studentId) {
+        UserSimple userSimple = userService.findByStudentId(studentId);
+
+        return ResponseEntity.ok(userSimple);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<UserSimple> create(@RequestBody Map<String,String> param) {
         UserDto userDto = new UserDto(param.get("studentId"),
